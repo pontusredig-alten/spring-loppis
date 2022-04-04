@@ -10,7 +10,6 @@ import java.util.Optional;
 @Service
 public class ItemService {
 
-
     private final ItemRepository itemRepository;
 
     public ItemService(ItemRepository itemRepository) {

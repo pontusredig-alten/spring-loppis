@@ -1,16 +1,23 @@
 package se.iths.springloppis.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.springloppis.entity.UserEntity;
+import se.iths.springloppis.service.BeanScopesDemo;
 import se.iths.springloppis.service.UserService;
 
 import java.util.Optional;
 
+@RestController
+@RequestMapping("users")
 public class UserController {
 
     private final UserService userService;
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -19,6 +26,15 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
         UserEntity createdUser = userService.createUser(user);
+
+        // For demo purpose
+        logger.trace("Vi loggar på TRACE-nivå");
+        logger.debug("Vi loggar på DEBUG-nivå");
+        logger.info("Vi loggar på INFO-nivå");
+        logger.warn("Vi loggar på WARN-nivå");
+        logger.error("Vi loggar på ERROR-nivå");
+
+
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
