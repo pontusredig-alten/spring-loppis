@@ -2,7 +2,9 @@ package se.iths.springloppis.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class UserEntity {
@@ -15,6 +17,19 @@ public class UserEntity {
     private String password;
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ItemEntity> items = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<RoleEntity> roles = new HashSet<>();
+
+
+    public void addRole(RoleEntity role) {
+        roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    public void removeRole(RoleEntity role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
+    }
 
     public void addItem(ItemEntity item) {
         items.add(item);
@@ -68,4 +83,11 @@ public class UserEntity {
         this.items = items;
     }
 
+    public Set<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEntity> roles) {
+        this.roles = roles;
+    }
 }
